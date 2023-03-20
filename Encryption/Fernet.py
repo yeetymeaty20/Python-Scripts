@@ -1,8 +1,6 @@
 import os
 from cryptography.fernet import Fernet 
 
-
-
 def welcome():
 
     print("1. Encrypt")
@@ -14,7 +12,6 @@ def welcome():
     print("7. Reset Password and Key")
     choice = int(input("Input number: "))
     return choice
-
 
 def encrypt_func():
     text = str(input("Input text: "))
@@ -115,8 +112,6 @@ def end():
     if end == "yes" or end == "y":
         exit()
         
-  
-
 while True:
 
     choice = welcome()
@@ -150,4 +145,3 @@ while True:
     elif choice == 7:
         reset()
         end()
-
