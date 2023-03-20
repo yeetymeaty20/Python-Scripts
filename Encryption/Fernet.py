@@ -12,6 +12,7 @@ def welcome():
     print("5. Print out your current key")
     print("6. Set password (Advanced Users only!!!)")
     print("7. Reset Password and Key")
+
     choice = int(input("Input number: "))
     return choice
 
@@ -54,6 +55,7 @@ def key_gen():
         print("Key: ", key)
         print("Dont worry this isnt your actual key this is just to make sure its genrating the key correcly")
         print("New key generated you can check your key from the welcome menu")
+
     key = Fernet.generate_key()
     cipher = Fernet(key)
     with open("thekey.key", "wb") as thekey:
@@ -106,6 +108,7 @@ def set_pass():
 def reset():
     default = "Alpine"
     data = bytes(default, encoding="utf-8")
+    
     if os.path.exists("password.pass"):
         with open("password.pass", "wb") as thepass:
             thepass.write(data)
