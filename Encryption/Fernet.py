@@ -1,6 +1,8 @@
+# Imports packages
 import os
 from cryptography.fernet import Fernet 
 
+# Welcome function
 def welcome():
 
     print("1. Encrypt")
@@ -13,6 +15,7 @@ def welcome():
     choice = int(input("Input number: "))
     return choice
 
+# Encrypt function
 def encrypt_func():
     text = str(input("Input text: "))
     data = bytes(text, encoding="utf-8")
@@ -24,6 +27,7 @@ def encrypt_func():
             encrypted = cipher.encrypt(data)
             return(str(encrypted))
 
+# Decrypt function
 def decrypt_func():
 
     data = str(input("Input encrypted text: "))
@@ -39,6 +43,7 @@ def decrypt_func():
                 decrypted = cipher.decrypt(data)
                 return(str(decrypted))
 
+# Key generation
 def key_gen():
 
     key = Fernet.generate_key()
@@ -56,6 +61,7 @@ def key_gen():
     
     return cipher 
 
+# Import custom keys so you can share encrypted messages with others
 def custom_key():
 
     key = input("Input key: ")
@@ -67,6 +73,7 @@ def custom_key():
     cipher = Fernet(key)
     return cipher
 
+# Prints out key, you can also read it directly from "thekey.key" file
 def key_print():
     with open("password.pass", "r") as thepass:
        correct_password = thepass.read()
@@ -82,7 +89,7 @@ def key_print():
         print("Incorrect Password, try again")
         key_print()
 
-
+# Changes password
 def set_pass():
     
     print("Warning for security reasons this will reset your key as well so you cant access someone elses encryptions by resetting password.")
@@ -95,7 +102,7 @@ def set_pass():
         with open("password.pass", "wb") as thepass:
             thepass.write(pass_bytes)
 
-
+# Resets the password and generates a new key
 def reset():
     default = "Alpine"
     data = bytes(default, encoding="utf-8")
@@ -105,13 +112,14 @@ def reset():
 
     key_gen()
 
-
+# Prompts user if they would like to end the script 
 def end():
 
     end = input("End [y/n]")
     if end == "yes" or end == "y":
         exit()
-        
+
+# Controls the users choice throughout the script      
 while True:
 
     choice = welcome()
