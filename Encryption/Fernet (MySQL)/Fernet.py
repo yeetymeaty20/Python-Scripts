@@ -1,6 +1,18 @@
 # Imports packages
 import os
+import mysql.connector
 from cryptography.fernet import Fernet
+
+MySQL_password = input("Please input your MySQL 'root' password: ")
+
+fernet_data = mysql.connector.connect (
+    host = "localhost",
+    user = "root",
+    password = MySQL_password,
+    database = "fernet"
+)
+
+mycursor = fernet_data.cursor()
 
 # Welcome function
 def welcome():
@@ -21,28 +33,28 @@ def encrypt_func():
     text = str(input("Input text: "))
     data = bytes(text, encoding="utf-8")
     
-    if os.path.exists("thekey.key"):
-        with open("thekey.key", "rb") as thekey:
-            key = thekey.read()
-            cipher = Fernet(key)
-            encrypted = cipher.encrypt(data)
-            return(str(encrypted))
+    
 
 # Decrypt function
 def decrypt_func():
+    
+    User_Input = input("Input your password: ")
+    
+    mycursor.execute("SELECT data FROM fernet_data WHERE id = 1;")
+    result = mycursor.fetchall()
+    
+    print(result)
+    for password in result:
+        print(password)
+    
+    if User_Input == result:
+        print("Correct")
 
-    data = str(input("Input encrypted text: "))
+    else:
+        print("Try again")
+
     
-    secretphrase = key
     
-    user_phrase = input("Input Password: ")
-    if user_phrase == secretphrase:
-        if os.path.exists("thekey.key"):
-            with open("thekey.key", "rb") as thekey:
-                key = thekey.read()
-                cipher = Fernet(key)
-                decrypted = cipher.decrypt(data)
-                return(str(decrypted))
 
 # Key generation
 def key_gen():
