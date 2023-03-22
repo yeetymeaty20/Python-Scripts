@@ -1,6 +1,6 @@
 # Imports packages
 import os
-from cryptography.fernet import Fernet 
+from cryptography.fernet import Fernet
 
 # Welcome function
 def welcome():
@@ -33,13 +33,13 @@ def decrypt_func():
 
     data = str(input("Input encrypted text: "))
     
-    secretphrase = "Alpine"
+    secretphrase = password
     
     user_phrase = input("Input Password: ")
     if user_phrase == secretphrase:
         if os.path.exists("thekey.key"):
             with open("thekey.key", "rb") as thekey:
-                key = thekey.read()
+                password = key = thekey.read()
                 cipher = Fernet(key)
                 decrypted = cipher.decrypt(data)
                 return(str(decrypted))
