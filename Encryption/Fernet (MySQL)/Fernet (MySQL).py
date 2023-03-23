@@ -149,6 +149,10 @@ def end():
 # Controls the users choice throughout the script      
 while True:
 
+    if os.path.exists("thekey.key"):
+        print("Dont use this binary with the older script")
+        SystemExit()
+
     choice = welcome()
     
     if choice == 1:
