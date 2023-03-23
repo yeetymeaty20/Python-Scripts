@@ -160,24 +160,18 @@ while True:
         case 1:
             encrypt = encrypt_func()
             print(encrypt)
-            end()
         case 2:
             decrypt = decrypt_func()
             print(decrypt)
-            end()
         case 3:
             key_gen()
-            end()
         case 4:
             custom_key()
-            end()
         case 5:
             key_print()
-            end()
         case 6:
             set_pass()
-            end()
         case 7:
             reset()
-            end()
-            
+
+    end()  
