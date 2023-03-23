@@ -155,32 +155,29 @@ while True:
 
     choice = welcome()
     
-    if choice == 1:
-        encrypt = encrypt_func()
-        print(encrypt)
-        end()
-        
-    elif choice == 2:
-        decrypt = decrypt_func()
-        print(decrypt)
-        end()
-        
-    elif choice == 3:
-        key_gen()
-        end()
-        
-    elif choice == 4:
-        custom_key()
-        end()
-        
-    elif choice == 5:
-        key_print()
-        end()
+    match choice:
 
-    elif choice == 6:
-        set_pass()
-        end()
-
-    elif choice == 7:
-        reset()
-        end()
+        case 1:
+            encrypt = encrypt_func()
+            print(encrypt)
+            end()
+        case 2:
+            decrypt = decrypt_func()
+            print(decrypt)
+            end()
+        case 3:
+            key_gen()
+            end()
+        case 4:
+            custom_key()
+            end()
+        case 5:
+            key_print()
+            end()
+        case 6:
+            set_pass()
+            end()
+        case 7:
+            reset()
+            end()
+            
