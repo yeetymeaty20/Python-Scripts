@@ -28,102 +28,114 @@ def welcome():
     choice = int(input("Input number: "))
     return choice
 
-# Encrypt function
-def encrypt_func():
-    text = str(input("Input text: "))
-    data = bytes(text, encoding="utf-8")
-    
-    
-
-# Decrypt function
-def decrypt_func():
+def pass_check():
     
     User_Input = input("Input your password: ")
     
     mycursor.execute("SELECT data FROM fernet_data WHERE id = 1;")
-    result = mycursor.fetchall()
+    result = mycursor.fetchone()
+    password = str(result[0])
+
+    print(password)
     
-    print(result)
-    for password in result:
-        print(password)
     
-    if User_Input == result:
+    if User_Input == password:
         print("Correct")
+        vaild = True
 
     else:
         print("Try again")
+        pass_check()
 
+    return vaild
+
+
+# Encrypt function
+def encrypt_func():
+
+    text = str(input("Input text: "))
+    data = bytes(text, encoding="utf-8")
     
+    mycursor.execute("SELECT data FROM fernet_data WHERE id = 2;")
+    result = mycursor.fetchone()
+    key = str(result[0])    
+    cipher = Fernet(key)
+
+    encrypted = cipher.encrypt(data)
+
+    return encrypted
+
+# Decrypt function
+def decrypt_func():
     
+    if pass_check() == True:
+
+        encrypted = str(input("Input encrypted text: "))
+
+        mycursor.execute("SELECT data FROM fernet_data WHERE id = 2;")
+        result = mycursor.fetchone()
+        key = str(result[0])    
+        cipher = Fernet(key)
+
+        decrypted = cipher.decrypt(encrypted)
+
+        return decrypted
 
 # Key generation
 def key_gen():
-
-    key = Fernet.generate_key()
     
-    with open("thekey.key", "wb") as thekey:
-        thekey.write(key)
-        
-        print("Key: ", key)
-        print("Dont worry this isnt your actual key this is just to make sure its genrating the key correcly")
-        print("New key generated you can check your key from the welcome menu")
-
     key = Fernet.generate_key()
-    cipher = Fernet(key)
-    with open("thekey.key", "wb") as thekey:
-        thekey.write(key)
+    key_str = str(key, 'utf-8')
     
-    return cipher 
+    change = "UPDATE fernet_data SET data = '%s' WHERE id = 2;" % (key_str)
+
+    mycursor.execute(change)
+
+    fernet_data.commit()
 
 # Import custom keys so you can share encrypted messages with others
 def custom_key():
 
     key = input("Input key: ")
-    key = bytes(key, encoding="utf-8")
 
-    with open("thekey.key", "wb") as thekey:
-        thekey.write(key)
+    imported_key = "UPDATE fernet_data SET data = '%s' WHERE id = 2;" % (key)
 
-    cipher = Fernet(key)
-    return cipher
+    mycursor.execute(imported_key)
 
-# Prints out key, you can also read it directly from "thekey.key" file
-def key_print():
-    with open("password.pass", "r") as thepass:
-       correct_password = thepass.read()
-    password = (input("Enter Password: "))
+    fernet_data.commit()
     
+# Prints out the key
+def key_print():
+    
+    mycursor.execute("SELECT data FROM fernet_data WHERE id = 2;")
+    result = mycursor.fetchone()
+    key = str(result[0])
 
-    if password == correct_password:
-        if os.path.exists("thekey.key"):
-            with open("thekey.key", "rb") as thekey:
-                key = thekey.read()
-                print("Key: ", key)
-    else:
-        print("Incorrect Password, try again")
-        key_print()
+    print(key)
+    
 
 # Changes password
 def set_pass():
     
-    print("Warning for security reasons this will reset your key as well so you cant access someone elses encryptions by resetting password.")
-    key_gen()
+    pass_check()
+    new_pass = input("Please Input new password: ")
 
-    password = (input("Input new Password: "))
-    pass_bytes = bytes(password, encoding="utf-8")
+    change_pass = "UPDATE fernet_data SET data = '%s' WHERE id = 1;" % (new_pass)
 
-    if os.path.exists("password.pass"):
-        with open("password.pass", "wb") as thepass:
-            thepass.write(pass_bytes)
+    mycursor.execute(change_pass)
 
+    fernet_data.commit()
+
+    
 # Resets the password and generates a new key
 def reset():
     default = "Alpine"
-    data = bytes(default, encoding="utf-8")
     
-    if os.path.exists("password.pass"):
-        with open("password.pass", "wb") as thepass:
-            thepass.write(data)
+    change_pass = "UPDATE fernet_data SET data = '%s' WHERE id = 1;" % (default)
+
+    mycursor.execute(change_pass)
+
+    fernet_data.commit()
 
     key_gen()
 
