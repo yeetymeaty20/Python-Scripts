@@ -62,7 +62,11 @@ def encrypt_func():
     cipher = Fernet(key)
 
     encrypted = cipher.encrypt(data)
+    encrypted_str = str(encrypted, "utf-8")
+    new_row = "UPDATE encrypted SET id = 1, data_type = '%s', data_name = '%s', data = '%s', decrypted = '%s' WHERE id = 1;" % ("Bytes(UTF-8)", "Encrypted-Text", encrypted_str, text)
 
+    mycursor.execute(new_row)
+    fernet_data.commit()
     return encrypted
 
 # Decrypt function
