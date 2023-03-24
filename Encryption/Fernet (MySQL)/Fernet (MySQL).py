@@ -28,6 +28,7 @@ def welcome():
     choice = int(input("Input number: "))
     return choice
 
+# Function to check password
 def pass_check():
     
     User_Input = input("Input your password: ")
@@ -48,7 +49,6 @@ def pass_check():
         pass_check()
 
     return vaild
-
 
 # Encrypt function
 def encrypt_func():
