@@ -1,5 +1,6 @@
 # Imports packages
 import os
+import sys
 from cryptography.fernet import Fernet
 
 # Welcome function
@@ -112,6 +113,9 @@ def reset():
     if os.path.exists("password.pass"):
         with open("password.pass", "wb") as thepass:
             thepass.write(data)
+    else:
+        with open("password.pass", "wb") as thepass:
+            thepass.write(data)
 
     key_gen()
 
@@ -122,37 +126,37 @@ def end():
     if end == "yes" or end == "y":
         exit()
 
+def arg():
+    
+    reset()
+
+arg_var = sys.argv[1]
+
+if arg_var == "-s":
+    arg()
+
 # Controls the users choice throughout the script      
 while True:
 
     choice = welcome()
     
-    if choice == 1:
-        encrypt = encrypt_func()
-        print(encrypt)
-        end()
-        
-    elif choice == 2:
-        decrypt = decrypt_func()
-        print(decrypt)
-        end()
-        
-    elif choice == 3:
-        key_gen()
-        end()
-        
-    elif choice == 4:
-        custom_key()
-        end()
-        
-    elif choice == 5:
-        key_print()
-        end()
+    match choice:
 
-    elif choice == 6:
-        set_pass()
-        end()
+        case 1:
+            encrypt = encrypt_func()
+            print(encrypt)
+        case 2:
+            decrypt = decrypt_func()
+            print(decrypt)
+        case 3:
+            key_gen()
+        case 4:
+            custom_key()
+        case 5:
+            key_print()
+        case 6:
+            set_pass()
+        case 7:
+            reset()
 
-    elif choice == 7:
-        reset()
-        end()
+    end()
