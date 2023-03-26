@@ -1,3 +1,5 @@
 .DS_Store
 password.pass
 thekey.key
+fernet_encrypted.sql
+fernet_fernet_data.sql
