@@ -1,5 +1,8 @@
 # Fernet Encryption & more
 
+Getting Started:
+    To start using this script first run `python Fernet.py -s`
+
 This script allows you to encrypt, decrypt and more with the Fernet package from cryptography 
 
 Setup / Usage:
