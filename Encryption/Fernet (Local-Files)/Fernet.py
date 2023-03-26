@@ -126,14 +126,14 @@ def end():
     if end == "yes" or end == "y":
         exit()
 
-def arg():
+def setup():
     
     reset()
 
 arg_var = sys.argv[1]
 
 if arg_var == "-s":
-    arg()
+    setup()
 
 # Controls the users choice throughout the script      
 while True:
