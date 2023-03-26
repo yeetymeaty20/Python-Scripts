@@ -126,6 +126,7 @@ def end():
     if end == "yes" or end == "y":
         exit()
 
+# Setup function to generate needed files
 def setup():
     
     reset()
