@@ -1,7 +1,21 @@
 # Imports packages
 import os
-import sys
+from dotenv import load_dotenv
+import dotenv
 from cryptography.fernet import Fernet
+
+# Asks users for their password
+def pass_check():
+
+    user_input = input("Enter password: ")
+    if user_input == PASSWORD:
+        validity = True
+
+        return(validity)
+    
+    else:
+        print("Try again.")
+        pass_check()
 
 # Welcome function
 def welcome():
@@ -13,84 +27,69 @@ def welcome():
     print("5. Print out your current key")
     print("6. Set password (Advanced Users only!!!)")
     print("7. Reset Password and Key")
+    print("8. Manage Keys")
 
     choice = int(input("Input number: "))
     return choice
 
 # Encrypt function
 def encrypt_func():
+
     text = str(input("Input text: "))
     data = bytes(text, encoding="utf-8")
-    
-    if os.path.exists("thekey.key"):
-        with open("thekey.key", "rb") as thekey:
-            key = thekey.read()
-            cipher = Fernet(key)
-            encrypted = cipher.encrypt(data)
-            return(str(encrypted))
+    cipher = Fernet(KEY)
+    encrypted = cipher.encrypt(data)
+
+    return(str(encrypted))
 
 # Decrypt function
 def decrypt_func():
 
-    data = str(input("Input encrypted text: "))
+    if pass_check() == True:
+
+        data = str(input("Input encrypted text: "))
     
-    secretphrase = key
-    
-    user_phrase = input("Input Password: ")
-    if user_phrase == secretphrase:
-        if os.path.exists("thekey.key"):
-            with open("thekey.key", "rb") as thekey:
-                key = thekey.read()
-                cipher = Fernet(key)
-                decrypted = cipher.decrypt(data)
-                return(str(decrypted))
+        cipher = Fernet(KEY)
+        decrypted = cipher.decrypt(data)
+        return(str(decrypted))
+    else:
+        pass_check()
+
 
 # Key generation
 def key_gen():
 
-    key = Fernet.generate_key()
-    
-    with open("thekey.key", "wb") as thekey:
-        thekey.write(key)
-        
-        print("Key: ", key)
-        print("Dont worry this isnt your actual key this is just to make sure its genrating the key correcly")
-        print("New key generated you can check your key from the welcome menu")
+    if pass_check() == True:
 
-    key = Fernet.generate_key()
-    cipher = Fernet(key)
-    with open("thekey.key", "wb") as thekey:
-        thekey.write(key)
-    
-    return cipher 
+        key = Fernet.generate_key()
+        key_str = key.decode("utf-8", "strict")
+
+        dotenv.set_key(".env", "KEY", key_str)
+    else:
+        pass_check()
 
 # Import custom keys so you can share encrypted messages with others
 def custom_key():
 
-    key = input("Input key: ")
-    key = bytes(key, encoding="utf-8")
+    if pass_check() == True:
 
-    with open("thekey.key", "wb") as thekey:
-        thekey.write(key)
+        key = input("Input key: ")
+        key = bytes(key, encoding="utf-8")
+        key_str = key.decode("utf-8", "strict")
+        dotenv.set_key(".env", "KEY", key_str)        
+    else:
+        pass_check()
 
-    cipher = Fernet(key)
-    return cipher
+
+    
 
 # Prints out key, you can also read it directly from "thekey.key" file
 def key_print():
-    with open("password.pass", "r") as thepass:
-       correct_password = thepass.read()
-    password = (input("Enter Password: "))
     
-
-    if password == correct_password:
-        if os.path.exists("thekey.key"):
-            with open("thekey.key", "rb") as thekey:
-                key = thekey.read()
-                print("Key: ", key)
+    if pass_check() == True:
+        print(KEY)
     else:
-        print("Incorrect Password, try again")
-        key_print()
+        pass_check()
 
 # Changes password
 def set_pass():
@@ -99,25 +98,55 @@ def set_pass():
     key_gen()
 
     password = (input("Input new Password: "))
-    pass_bytes = bytes(password, encoding="utf-8")
+    print("The script will now exit and you password will be affective on next launch")
 
-    if os.path.exists("password.pass"):
-        with open("password.pass", "wb") as thepass:
-            thepass.write(pass_bytes)
+    dotenv.set_key(".env", "PASSWORD", password)
+    exit()
+
+    
 
 # Resets the password and generates a new key
 def reset():
-    default = "Alpine"
-    data = bytes(default, encoding="utf-8")
-    
-    if os.path.exists("password.pass"):
-        with open("password.pass", "wb") as thepass:
-            thepass.write(data)
-    else:
-        with open("password.pass", "wb") as thepass:
-            thepass.write(data)
 
     key_gen()
+    default = "Alpine"
+    
+    dotenv.set_key(".env", "PASSWORD", default)
+
+def managekeys():
+
+    print("1. Backup a key")
+    print("2. Delete backed up key")
+    print("3. Restore key from backed up key")
+    print("0. Go back to main menu")
+    option_key = int(input("Input a number: "))
+
+    match option_key:
+
+        case 1:
+            if KEY_BACKUP != '':
+
+                backedupkey = input("Input the key: ")
+                dotenv.set_key(".env", "KEY_BACKUP", backedupkey)
+            else:
+                print("Delete this backed up key first")
+                managekeys()
+        case 2:
+            ask = input("Are you sure [y/n]]")
+
+            if ask == "y":
+                dotenv.set_key(".env", "KEY_BACKUP", '')
+            else:
+                welcome()
+        case 3:
+            ask = input("Are you sure [y/n]")
+
+            if ask == "y":
+                dotenv.set_key(".env", "KEY", KEY_BACKUP)
+            else:
+                welcome()
+        case 0:
+            welcome()
 
 # Prompts user if they would like to end the script 
 def end():
@@ -126,18 +155,15 @@ def end():
     if end == "yes" or end == "y":
         exit()
 
-# Setup function to generate needed files
-def setup():
-    
-    reset()
-
-arg_var = sys.argv[1]
-
-if arg_var == "-s":
-    setup()
-
 # Controls the users choice throughout the script      
 while True:
+
+    #.env stuff
+    load_dotenv()
+
+    KEY = os.getenv("KEY")
+    PASSWORD = os.getenv("PASSWORD")
+    KEY_BACKUP = os.getenv("KEY_BACKUP")
 
     choice = welcome()
     
@@ -159,5 +185,7 @@ while True:
             set_pass()
         case 7:
             reset()
+        case 8:
+            managekeys()
 
     end()
