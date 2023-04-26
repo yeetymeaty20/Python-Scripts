@@ -4,6 +4,13 @@ from dotenv import load_dotenv
 import dotenv
 from cryptography.fernet import Fernet
 
+load_dotenv()
+
+KEY = os.getenv("KEY")
+PASSWORD = os.getenv("PASSWORD")
+KEY_BACKUP = os.getenv("KEY_BACKUP")
+
+
 # Asks users for their password
 def pass_check():
 
@@ -154,6 +161,11 @@ def end():
     end = input("End [y/n]")
     if end == "yes" or end == "y":
         exit()
+
+if KEY == '':
+    print("Either this is your first time running the script or YOU changed you key to '',no worries we are generating a new key for you.")
+    print("Default password is Alpine you should change it after")
+    key_gen()
 
 # Controls the users choice throughout the script      
 while True:
