@@ -1,6 +1,6 @@
 # Python-Scripts
 
-ATTENTION everyone Fernet MySQL has been but on hold and the main project will now return the Local files method of storing data.
+ATTENTION everyone Fernet MySQL has been put on hold and the main project will now return the Local files method of storing data.
 
 Hello these are some of the Python scripts I'm working on.
 
