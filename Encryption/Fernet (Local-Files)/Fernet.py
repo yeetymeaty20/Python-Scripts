@@ -71,6 +71,8 @@ def welcome():
         print("6. Set password (Advanced Users only!!!)")
         print("7. Reset Password and Key")
         print("8. Manage Keys")
+        print("9. Encrypt a file")
+        print("10. Decrypt a file")
 
         choice = validate_input("Input a number: ", int, "Please input a number")
 
@@ -319,46 +321,64 @@ def encrypt_file():
     
     """
 
-    if pass_check() == True:
-        print(os.curdir)
-        file = input("Input file name: ")
-        file = open(file, "rb")
+    
+    cwd_contents = os.listdir(os.curdir)
+
+    for item in cwd_contents:
+        print(item)
+
+    filename = input("Input file name: ")
+    
+    with open(filename, "rb") as file:
+
         data = file.read()
-        file.close()
-        encryption_tool = Fernet(KEY)
-        encrypted = encryption_tool.encrypt(data)
-        file = open(file, "wb")
+
+    encryption_tool = Fernet(KEY)
+    encrypted = encryption_tool.encrypt(data)
+
+    with open(filename, "wb") as file:
+
         file.write(encrypted)
-        file.close()
-    else:
-        pass_check()
+        print("File encrypted")
+
 
 def decrypt_file():
     
-        """
-        Decrypts a file
+    """
+    Decrypts a file
+
+    Args:
+        None
     
-        Args:
-            None
-        
-        Returns:
-            None
-        
-        """
+    Returns:
+        None
     
-        if pass_check() == True:
-            print(os.curdir)
-            file = input("Input file name: ")
-            file = open(file, "rb")
+    """
+
+    if pass_check() == True:
+        cwd_contents = os.listdir(os.curdir)
+
+        for item in cwd_contents:
+            print(item)
+
+        filename = input("Input file name: ")
+    
+        with open(filename, "rb") as file:
+
             data = file.read()
-            file.close()
-            encryption_tool = Fernet(KEY)
-            decrypted = encryption_tool.decrypt(data)
-            file = open(file, "wb")
+
+        encryption_tool = Fernet(KEY)
+        decrypted = encryption_tool.decrypt(data)
+
+        with open(filename, "wb") as file:
+
             file.write(decrypted)
-            file.close()
-        else:
-            pass_check()
+            print("File decrypted")
+
+    else:
+        pass_check()
+    
+        
 
 # Prompts user if they would like to end the script 
 def end():
