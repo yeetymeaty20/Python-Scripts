@@ -21,7 +21,7 @@ L_MAGENTA = colorama.Fore.LIGHTMAGENTA_EX
 RESET = colorama.Fore.RESET
 
 def load_env_variables():
-    
+
     os.environ.clear()
     load_dotenv(dotenv_path=".env")
     KEY = os.getenv("KEY")
@@ -485,7 +485,7 @@ if __name__ == "__main__":
 
     KEY, PASSWORD_E, PASSWORD_D, KEY_BACKUP, DEBUG = load_env_variables()
 
-    if KEY == '':
+    if KEY == '' or KEY == None:
         print("Either this is your first time running the script or YOU changed you key to '',no worries we are generating a new key for you.")
         print("Default password is 'alpine' you should change it after")
         key_gen(PASSWORD_D)
