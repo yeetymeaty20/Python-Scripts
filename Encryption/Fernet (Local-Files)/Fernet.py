@@ -255,7 +255,7 @@ def set_pass(PASSWORD_D):
 
     if password_d != double_check:
         print("Passwords do not match")
-        set_pass()
+        set_pass(PASSWORD_D)
 
     password_e = base64.b64encode(bytes(password_d, encoding="utf-8"))
     print("Password set")
@@ -487,8 +487,13 @@ if __name__ == "__main__":
 
     if KEY == '' or KEY == None:
         print("Either this is your first time running the script or YOU changed you key to '',no worries we are generating a new key for you.")
-        print("Default password is 'alpine' you should change it after")
+        print("Default password is 'alpine' you will be prompted to change it after the key is generated.")
         key_gen(PASSWORD_D)
+        
+        if PASSWORD_D == "alpine":
+            print("Please change your password")
+            set_pass(PASSWORD_D)
+            
 
     # Controls the users choice throughout the script      
     while True:
