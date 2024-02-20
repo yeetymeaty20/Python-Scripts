@@ -17,10 +17,24 @@ L_RED = colorama.Fore.LIGHTRED_EX
 L_CYAN = colorama.Fore.LIGHTCYAN_EX
 L_YELLOW = colorama.Fore.LIGHTYELLOW_EX
 L_MAGENTA = colorama.Fore.LIGHTMAGENTA_EX
-
+default_e = "YWxwaW5l"
 RESET = colorama.Fore.RESET
 
 def load_env_variables():
+
+    if load_dotenv(dotenv_path=".env") == False:
+        print(L_RED + "No .env file found, creating one for you." + RESET)
+        with open(".env", "w") as file:
+            file.close()
+
+        load_dotenv(dotenv_path=".env")
+        os.environ.clear()
+        dotenv.set_key(".env", "PASSWORD", default_e)
+        dotenv.set_key(".env", "DEBUG", "False")
+        dotenv.set_key(".env", "KEY_BACKUP", "")
+        dotenv.set_key(".env", "KEY", "")
+
+    
 
     os.environ.clear()
     load_dotenv(dotenv_path=".env")
@@ -250,8 +264,8 @@ def set_pass(PASSWORD_D):
     print("Warning for security reasons this will reset your key as well so you cant access someone elses encryptions by resetting password.")
     key_gen(PASSWORD_D)
 
-    password_d = (input("Input new Password: "))
-    double_check = (input("Input new Password again: "))
+    password_d = input("Input new Password: ")
+    double_check = input("Input new Password again: ")
 
     if password_d != double_check:
         print("Passwords do not match")
@@ -260,7 +274,19 @@ def set_pass(PASSWORD_D):
     password_e = base64.b64encode(bytes(password_d, encoding="utf-8"))
     print("Password set")
 
-    dotenv.set_key(".env", "PASSWORD", password_e)
+
+    print(type(password_e))
+
+    try:
+
+        dotenv.set_key(".env", "PASSWORD", password_e)
+
+    except TypeError:
+        print("Error setting password")
+        dotenv.set_key(".env", "PASSWORD", password_e)
+
+
+
 
     load_env_variables()
     
@@ -485,14 +511,13 @@ if __name__ == "__main__":
 
     KEY, PASSWORD_E, PASSWORD_D, KEY_BACKUP, DEBUG = load_env_variables()
 
-    if KEY == '' or KEY == None:
+    if KEY == "" or KEY == None or PASSWORD_D == "alpine" or PASSWORD_D == None or PASSWORD_D == "":
         print("Either this is your first time running the script or YOU changed you key to '',no worries we are generating a new key for you.")
         print("Default password is 'alpine' you will be prompted to change it after the key is generated.")
         key_gen(PASSWORD_D)
+        print("Please change your password")
+        set_pass(PASSWORD_D)
         
-        if PASSWORD_D == "alpine":
-            print("Please change your password")
-            set_pass(PASSWORD_D)
             
 
     # Controls the users choice throughout the script      
