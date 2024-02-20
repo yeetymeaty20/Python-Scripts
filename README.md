@@ -1,9 +1,16 @@
-# Python-Scripts
+# Fernet Encryption & more
 
-ATTENTION everyone Fernet MySQL has been put on hold and the main project will now return the Local files method of storing data.
+2.0 is here and so is many more features and refinements
+Check the release changelog for more details
 
-Hello these are some of the Python scripts I'm working on.
+Getting Started:
 
-For more info on each individual script check the README in each of the scripts folder.
+Dependencies:   
+    
+    pip install cryptography
 
-If you have any questions email me at kaijanedev@icloud.com.
+The script is pretty self explanitory and if find any issues please use the issues tab on github and explain what you think seems to be working incorrectly as it will help me to improve the script.
+
+Apart from this I'm sure anyone can figure out how to use the script and in the future I may do a full write up of the usage.
+
+Enjoy.
