@@ -274,16 +274,8 @@ def set_pass(PASSWORD_D):
     password_e = base64.b64encode(bytes(password_d, encoding="utf-8"))
     print("Password set")
 
-
-    print(type(password_e))
-
-    try:
-
-        dotenv.set_key(".env", "PASSWORD", password_e)
-
-    except TypeError:
-        print("Error setting password")
-        dotenv.set_key(".env", "PASSWORD", password_e)
+    dotenv.set_key(".env", "PASSWORD", password_e.decode("utf-8", "strict"))
+        
 
 
 
