@@ -17,8 +17,10 @@ L_RED = colorama.Fore.LIGHTRED_EX
 L_CYAN = colorama.Fore.LIGHTCYAN_EX
 L_YELLOW = colorama.Fore.LIGHTYELLOW_EX
 L_MAGENTA = colorama.Fore.LIGHTMAGENTA_EX
-default_e = "YWxwaW5l"
+
 RESET = colorama.Fore.RESET
+
+default_e = "YWxwaW5l"
 
 def load_env_variables():
 
@@ -198,7 +200,7 @@ def key_gen(PASSWORD_D):
 
         dotenv.set_key(".env", "KEY", key_str)
 
-        load_env_variables
+        load_env_variables()
         print("Key generated")
 
     else:
@@ -515,7 +517,7 @@ if __name__ == "__main__":
     # Controls the users choice throughout the script      
     while True:
 
-        load_env_variables()
+        KEY, PASSWORD_E, PASSWORD_D, KEY_BACKUP, DEBUG = load_env_variables()
 
         choice = main()
         
