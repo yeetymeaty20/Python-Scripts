@@ -68,7 +68,7 @@ def pass_check(PASSWORD_D):
     Asks the user for password and checks if it is correct
     
     Args:
-        None
+        PASSWORD_D (str): password
     
     Returns:
         bool: validity of password
@@ -124,7 +124,7 @@ def encrypt_func(KEY):
     Encrypts the text the user inputs
 
     Args:
-        None
+        KEY (str): encryption key
 
     Returns:
         str: encrypted text
@@ -145,7 +145,8 @@ def decrypt_func(KEY, PASSWORD_D):
     Decrypts the text the user inputs
 
     Args:
-        None
+        KEY (str): encryption key
+        PASSWORD_D (str): password
 
     Returns:
         str: decrypted text
@@ -186,7 +187,7 @@ def key_gen(PASSWORD_D):
     Generates a new key and saves it to .env file
 
     Args:
-        None
+        PASSWORD_D (str): password
     
     Returns:
         None
@@ -213,7 +214,7 @@ def custom_key(PASSWORD_D):
     Imports a custom key and saves it to .env file
 
     Args:
-        None
+        PASSWORD_D (str): password
 
     Returns:
         None
@@ -237,7 +238,8 @@ def key_print(KEY, PASSWORD_D):
     Prints out the current key
 
     Args:
-        None
+        KEY (str): encryption key
+        PASSWORD_D (str): password
 
     Returns:
         None
@@ -256,7 +258,7 @@ def set_pass(PASSWORD_D):
     Changes the password
 
     Args:
-        None
+        PASSWORD_D (str): password
 
     Returns:
         None
@@ -294,7 +296,7 @@ def reset(PASSWORD_D):
     Resets the password and generates a new key
 
     Args:
-        None
+        PASSWORD_D (str): password
 
     Returns:
         None
@@ -316,7 +318,7 @@ def managekeys(KEY_BACKUP):
     This function allows the user to perform various operations on encryption keys, such as backing up a key, deleting a backed up key, and restoring a backed up key as the current key.
 
     Args:
-        None
+        KEY_BACKUP (str): backed up key
     
     Returns:
         None
@@ -362,7 +364,7 @@ def encrypt_file(KEY):
     Encrypts a file
 
     Args:
-        None
+        KEY (str): encryption key
     
     Returns:
         None
@@ -396,7 +398,8 @@ def decrypt_file(KEY, PASSWORD_D):
     Decrypts a file
 
     Args:
-        None
+        KEY (str): encryption key
+        PASSWORD_D (str): password
     
     Returns:
         None
@@ -432,7 +435,8 @@ def debug_mode(PASSWORD_D, DEBUG):
     Debug mode
 
     Args:
-        None
+        PASSWORD_D (str): password
+        DEBUG (str): debug mode state
 
     Returns:
         None
