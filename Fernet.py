@@ -22,7 +22,7 @@ RESET = colorama.Fore.RESET
 
 default_e = "YWxwaW5l"
 
-def load_env_variables():
+def loadEnvVariables():
 
     if load_dotenv(dotenv_path=".env") == False:
         print(L_RED + "No .env file found, creating one for you." + RESET)
@@ -49,7 +49,7 @@ def load_env_variables():
 
     return KEY, PASSWORD_E, PASSWORD_D, KEY_BACKUP, DEBUG
 
-def validate_input(prompt, expected_type, error_message):
+def validateInput(prompt, expected_type, error_message):
     while True:
         user_input = input(L_YELLOW + prompt + RESET)
         try:
@@ -59,10 +59,10 @@ def validate_input(prompt, expected_type, error_message):
             print(L_RED + error_message + RESET)
 
 
-load_env_variables()
+loadEnvVariables()
 
 # Asks users for their password
-def pass_check(PASSWORD_D):
+def passCheck(PASSWORD_D):
 
     """
     Asks the user for password and checks if it is correct
@@ -107,7 +107,7 @@ def main():
 
     print("\n".join(menu_options))
 
-    choice = validate_input("Input a number: ", int, "Please input a number")
+    choice = validateInput("Input a number: ", int, "Please input a number")
 
     try:
         choice = int(choice)
@@ -118,7 +118,7 @@ def main():
     
 
 # Encrypt function
-def encrypt_func(KEY):
+def encryptFunc(KEY):
 
     """
     Encrypts the text the user inputs
@@ -131,7 +131,7 @@ def encrypt_func(KEY):
 
     """
 
-    text = validate_input("Input text: ", str, "Please input text")
+    text = validateInput("Input text: ", str, "Please input text")
 
     data = bytes(text, encoding="utf-8")
     encryption_tool = Fernet(KEY)
@@ -140,7 +140,7 @@ def encrypt_func(KEY):
     return(str(encrypted))
 
 # Decrypt function
-def decrypt_func(KEY, PASSWORD_D):
+def decryptFunc(KEY, PASSWORD_D):
     """
     Decrypts the text the user inputs
 
@@ -152,9 +152,9 @@ def decrypt_func(KEY, PASSWORD_D):
         str: decrypted text
     """
 
-    if pass_check(PASSWORD_D) == True:
+    if passCheck(PASSWORD_D) == True:
 
-        data = validate_input("Input text: ", str, "Please input text")
+        data = validateInput("Input text: ", str, "Please input text")
 
         # Remove the "b'" and "'" from the input if they exist
         if data.startswith("b'") and data.endswith("'"):
@@ -177,11 +177,11 @@ def decrypt_func(KEY, PASSWORD_D):
 
         return decrypted
     else:
-        pass_check(PASSWORD_D)
+        passCheck(PASSWORD_D)
 
 
 # Key generation
-def key_gen(PASSWORD_D):
+def keyGen(PASSWORD_D):
 
     """
     Generates a new key and saves it to .env file
@@ -194,21 +194,21 @@ def key_gen(PASSWORD_D):
     
     """
 
-    if pass_check(PASSWORD_D) == True:
+    if passCheck(PASSWORD_D) == True:
 
         key = Fernet.generate_key()
         key_str = key.decode("utf-8", "strict")
 
         dotenv.set_key(".env", "KEY", key_str)
 
-        load_env_variables()
+        loadEnvVariables()
         print("Key generated")
 
     else:
-        pass_check(PASSWORD_D)
+        passCheck(PASSWORD_D)
 
 # Import custom keys so you can share encrypted messages with others
-def custom_key(PASSWORD_D):
+def customKey(PASSWORD_D):
 
     """
     Imports a custom key and saves it to .env file
@@ -221,18 +221,18 @@ def custom_key(PASSWORD_D):
     
     """
 
-    if pass_check(PASSWORD_D) == True:
+    if passCheck(PASSWORD_D) == True:
 
         key = input("Input key: ")
         key = bytes(key, encoding="utf-8")
         key_str = key.decode("utf-8", "strict")
         dotenv.set_key(".env", "KEY", key_str)
 
-        load_env_variables()     
+        loadEnvVariables()     
     else:
-        pass_check(PASSWORD_D)
+        passCheck(PASSWORD_D)
 
-def key_print(KEY, PASSWORD_D):
+def outputKey(KEY, PASSWORD_D):
 
     """
     Prints out the current key
@@ -246,13 +246,13 @@ def key_print(KEY, PASSWORD_D):
 
     """
     
-    if pass_check(PASSWORD_D) == True:
+    if passCheck(PASSWORD_D) == True:
         print(KEY)
     else:
-        pass_check(PASSWORD_D)
+        passCheck(PASSWORD_D)
 
 # Changes password
-def set_pass(PASSWORD_D):
+def setPswd(PASSWORD_D):
 
     """
     Changes the password
@@ -266,14 +266,14 @@ def set_pass(PASSWORD_D):
     """
     
     print("Warning for security reasons this will reset your key as well so you cant access someone elses encryptions by resetting password.")
-    key_gen(PASSWORD_D)
+    keyGen(PASSWORD_D)
 
     password_d = input("Input new Password: ")
     double_check = input("Input new Password again: ")
 
     if password_d != double_check:
         print("Passwords do not match")
-        set_pass(PASSWORD_D)
+        setPswd(PASSWORD_D)
 
     password_e = base64.b64encode(bytes(password_d, encoding="utf-8"))
     print("Password set")
@@ -284,7 +284,7 @@ def set_pass(PASSWORD_D):
 
 
 
-    load_env_variables()
+    loadEnvVariables()
     
 
     
@@ -303,15 +303,15 @@ def reset(PASSWORD_D):
     
     """
 
-    key_gen(PASSWORD_D)
+    keyGen(PASSWORD_D)
     default_d = "alpine"
     default_e = base64.b64encode(bytes(default_d, encoding="utf-8"))
     
     dotenv.set_key(".env", "PASSWORD", default_e)
 
-    load_env_variables()
+    loadEnvVariables()
 
-def managekeys(KEY_BACKUP):
+def manageKeys(KEY_BACKUP):
     """
     Manages keys
 
@@ -328,7 +328,7 @@ def managekeys(KEY_BACKUP):
         print("2. Delete backed up key")
         print("3. Restore backed up key as current key")
         print("0. Go back to main menu")
-        option_key = validate_input("Input a number: ", int, "Please input a number")
+        option_key = validateInput("Input a number: ", int, "Please input a number")
 
         match option_key:
             case 1:
@@ -338,14 +338,14 @@ def managekeys(KEY_BACKUP):
                 backedupkey = input("Input the key: ")
                 dotenv.set_key(".env", "KEY_BACKUP", backedupkey)
 
-                load_env_variables()
+                loadEnvVariables()
                 break
             case 2:
                 ask = input("Are you sure [y/n]]")
                 if ask == "y":
                     dotenv.set_key(".env", "KEY_BACKUP", '')
 
-                    load_env_variables()
+                    loadEnvVariables()
                     break
             case 3:
                 ask = input("Are you sure [y/n]")
@@ -353,12 +353,12 @@ def managekeys(KEY_BACKUP):
                     dotenv.set_key(".env", "KEY", KEY_BACKUP)
                     dotenv.set_key(".env", "KEY_BACKUP", '')
 
-                    load_env_variables()
+                    loadEnvVariables()
                     break
             case 0:
                 break
 
-def encrypt_file(KEY):
+def encryptFile(KEY):
 
     """
     Encrypts a file
@@ -392,7 +392,7 @@ def encrypt_file(KEY):
         print("File encrypted")
 
 
-def decrypt_file(KEY, PASSWORD_D):
+def decryptFile(KEY, PASSWORD_D):
     
     """
     Decrypts a file
@@ -406,7 +406,7 @@ def decrypt_file(KEY, PASSWORD_D):
     
     """
 
-    if pass_check(PASSWORD_D) == True:
+    if passCheck(PASSWORD_D) == True:
         cwd_contents = os.listdir(os.curdir)
 
         for item in cwd_contents:
@@ -427,9 +427,9 @@ def decrypt_file(KEY, PASSWORD_D):
             print("File decrypted")
 
     else:
-        pass_check(PASSWORD_D)
+        passCheck(PASSWORD_D)
 
-def debug_mode(PASSWORD_D, DEBUG):
+def debugMode(PASSWORD_D, DEBUG):
 
     """
     Debug mode
@@ -445,7 +445,7 @@ def debug_mode(PASSWORD_D, DEBUG):
 
     dotenv.load_dotenv()
 
-    if pass_check(PASSWORD_D) == True:
+    if passCheck(PASSWORD_D) == True:
 
         verfication = float(input("Please input the answer to this question: 8 / 2 * (2 + 2) = "))
 
@@ -461,11 +461,11 @@ def debug_mode(PASSWORD_D, DEBUG):
 
 
 
-    state = validate_input("Input debug mode state [" + L_GREEN + "True" + RESET + "/" + L_RED + "False" + L_YELLOW + "]: ", str, "Please input True or False")
+    state = validateInput("Input debug mode state [" + L_GREEN + "True" + RESET + "/" + L_RED + "False" + L_YELLOW + "]: ", str, "Please input True or False")
 
     dotenv.set_key(".env", "DEBUG", state)
 
-    load_env_variables()
+    loadEnvVariables()
 
     if DEBUG == 'True':
         print("Debug mode", L_GREEN + "enabled" + RESET)
@@ -507,49 +507,49 @@ def end():
 
 if __name__ == "__main__":
 
-    KEY, PASSWORD_E, PASSWORD_D, KEY_BACKUP, DEBUG = load_env_variables()
+    KEY, PASSWORD_E, PASSWORD_D, KEY_BACKUP, DEBUG = loadEnvVariables()
 
     if KEY == "" or KEY == None or PASSWORD_D == "alpine" or PASSWORD_D == None or PASSWORD_D == "":
         print("Either this is your first time running the script or YOU changed you key to '',no worries we are generating a new key for you.")
         print("Default password is 'alpine' you will be prompted to change it after the key is generated.")
-        key_gen(PASSWORD_D)
+        keyGen(PASSWORD_D)
         print("Please change your password")
-        set_pass(PASSWORD_D)
+        setPswd(PASSWORD_D)
         
             
 
     # Controls the users choice throughout the script      
     while True:
 
-        KEY, PASSWORD_E, PASSWORD_D, KEY_BACKUP, DEBUG = load_env_variables()
+        KEY, PASSWORD_E, PASSWORD_D, KEY_BACKUP, DEBUG = loadEnvVariables()
 
         choice = main()
         
         match choice:                                   # I use match statements because they are easier to read and more efficient than if statements
 
             case 1:
-                encrypt = encrypt_func(KEY)
+                encrypt = encryptFunc(KEY)
                 print(encrypt)
             case 2:
-                decrypt = decrypt_func(KEY, PASSWORD_D)
+                decrypt = decryptFunc(KEY, PASSWORD_D)
                 print(decrypt)
             case 3:
-                key_gen(PASSWORD_D)
+                keyGen(PASSWORD_D)
             case 4:
-                custom_key()
+                customKey()
             case 5:
-                key_print(KEY, PASSWORD_D)
+                outputKey(KEY, PASSWORD_D)
             case 6:
-                set_pass(PASSWORD_D)
+                setPswd(PASSWORD_D)
             case 7:
                 reset()
             case 8:
-                managekeys(KEY_BACKUP)
+                manageKeys(KEY_BACKUP)
             case 9:
-                encrypt_file(KEY)
+                encryptFile(KEY)
             case 10:
-                decrypt_file(KEY, PASSWORD_D)
+                decryptFile(KEY, PASSWORD_D)
             case 0:
-                debug_mode(PASSWORD_D, DEBUG)
+                debugMode(PASSWORD_D, DEBUG)
 
         end()
