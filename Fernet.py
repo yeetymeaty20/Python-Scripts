@@ -105,6 +105,7 @@ def main():
         L_CYAN + "0. Debug mode" + RESET
     ]
 
+
     print("\n".join(menu_options))
 
     choice = validateInput("Input a number: ", int, "Please input a number")
@@ -459,18 +460,22 @@ def debugMode(PASSWORD_D, DEBUG):
         print("Verification failed")
         return
 
-
+    if DEBUG == 'true':
+        print("Debug mode is currently", L_GREEN + "enabled" + RESET)
+    
+    elif DEBUG == 'false':
+        print("Debug mode is currently", L_RED + "disabled" + RESET)
 
     state = validateInput("Input debug mode state [" + L_GREEN + "True" + RESET + "/" + L_RED + "False" + L_YELLOW + "]: ", str, "Please input True or False")
 
-    dotenv.set_key(".env", "DEBUG", state)
+    dotenv.set_key(".env", "DEBUG", state.lower())
 
     loadEnvVariables()
 
-    if DEBUG == 'True':
+    if DEBUG == 'true':
         print("Debug mode", L_GREEN + "enabled" + RESET)
 
-    elif DEBUG == 'False':
+    elif DEBUG == 'false':
         print("Debug mode", L_RED + "disabled" + RESET)
         
 
@@ -525,7 +530,8 @@ if __name__ == "__main__":
 
         choice = main()
         
-        match choice:                                   # I use match statements because they are easier to read and more efficient than if statements
+        # I use match statements because they are easier to read and more efficient than if statements
+        match choice:                                   
 
             case 1:
                 encrypt = encryptFunc(KEY)
