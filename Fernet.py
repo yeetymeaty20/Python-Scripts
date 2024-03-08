@@ -102,7 +102,7 @@ def main():
         L_CYAN + "8. Manage Keys",
         L_CYAN + "9. Encrypt a file",
         L_CYAN + "10. Decrypt a file",
-        L_CYAN + "0. Debug mode" + RESET
+        L_CYAN + "0. Debug mode, doesn't do anything yet" + RESET
     ]
 
 
