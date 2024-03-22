@@ -280,10 +280,6 @@ def setPswd(PASSWORD_D):
     print("Password set")
 
     dotenv.set_key(".env", "PASSWORD", password_e.decode("utf-8", "strict"))
-        
-
-
-
 
     loadEnvVariables()
     
@@ -521,7 +517,9 @@ if __name__ == "__main__":
         print("Please change your password")
         setPswd(PASSWORD_D)
         
-            
+else:
+
+    print("This script is not meant to be run as a module. Please run it as a standalone script.")
 
     # Controls the users choice throughout the script      
     while True:

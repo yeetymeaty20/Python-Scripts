@@ -7,7 +7,7 @@ Getting Started:
 
 Dependencies:   
     
-    pip install cryptography
+    pip install cryptography colorama python-dotenv
 
 The script is pretty self explanitory and if find any issues please use the issues tab on github and explain what you think seems to be working incorrectly as it will help me to improve the script.
 
