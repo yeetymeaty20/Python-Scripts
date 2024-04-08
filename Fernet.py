@@ -521,39 +521,39 @@ else:
 
     print("This script is not meant to be run as a module. Please run it as a standalone script.")
 
-    # Controls the users choice throughout the script      
-    while True:
+# Controls the users choice throughout the script      
+while True:
 
-        KEY, PASSWORD_E, PASSWORD_D, KEY_BACKUP, DEBUG = loadEnvVariables()
+    KEY, PASSWORD_E, PASSWORD_D, KEY_BACKUP, DEBUG = loadEnvVariables()
 
-        choice = main()
-        
-        # I use match statements because they are easier to read and more efficient than if statements
-        match choice:                                   
+    choice = main()
+    
+    # I use match statements because they are easier to read and more efficient than if statements
+    match choice:                                   
 
-            case 1:
-                encrypt = encryptFunc(KEY)
-                print(encrypt)
-            case 2:
-                decrypt = decryptFunc(KEY, PASSWORD_D)
-                print(decrypt)
-            case 3:
-                keyGen(PASSWORD_D)
-            case 4:
-                customKey()
-            case 5:
-                outputKey(KEY, PASSWORD_D)
-            case 6:
-                setPswd(PASSWORD_D)
-            case 7:
-                reset()
-            case 8:
-                manageKeys(KEY_BACKUP)
-            case 9:
-                encryptFile(KEY)
-            case 10:
-                decryptFile(KEY, PASSWORD_D)
-            case 0:
-                debugMode(PASSWORD_D, DEBUG)
+        case 1:
+            encrypt = encryptFunc(KEY)
+            print(encrypt)
+        case 2:
+            decrypt = decryptFunc(KEY, PASSWORD_D)
+            print(decrypt)
+        case 3:
+            keyGen(PASSWORD_D)
+        case 4:
+            customKey()
+        case 5:
+            outputKey(KEY, PASSWORD_D)
+        case 6:
+            setPswd(PASSWORD_D)
+        case 7:
+            reset()
+        case 8:
+            manageKeys(KEY_BACKUP)
+        case 9:
+            encryptFile(KEY)
+        case 10:
+            decryptFile(KEY, PASSWORD_D)
+        case 0:
+            debugMode(PASSWORD_D, DEBUG)
 
-        end()
+    end()
