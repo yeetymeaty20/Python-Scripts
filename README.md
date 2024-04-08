@@ -5,9 +5,9 @@ Check the release changelog for more details
 
 Getting Started:
 
-Dependencies:   
-    
-    pip install cryptography colorama python-dotenv
+You will need to install the dependencies you can do this with pip easily for example
+
+    pip install -r requirements.txt
 
 The script is pretty self explanitory and if find any issues please use the issues tab on github and explain what you think seems to be working incorrectly as it will help me to improve the script.
 
