@@ -1,4 +1,4 @@
 .DS_Store
 .env
-*.intel
 .venv
+File.txt
