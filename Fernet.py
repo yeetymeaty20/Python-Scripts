@@ -32,7 +32,6 @@ def loadEnvVariables():
         load_dotenv(dotenv_path=".env")
         os.environ.clear()
         dotenv.set_key(".env", "PASSWORD", default_e)
-        dotenv.set_key(".env", "DEBUG", "False")
         dotenv.set_key(".env", "KEY_BACKUP", "")
         dotenv.set_key(".env", "KEY", "")
 
@@ -45,9 +44,7 @@ def loadEnvVariables():
     PASSWORD_D = base64.b64decode(PASSWORD_E).decode("utf-8", "strict")
     KEY_BACKUP = os.getenv("KEY_BACKUP")
 
-    DEBUG = os.getenv("DEBUG")
-
-    return KEY, PASSWORD_E, PASSWORD_D, KEY_BACKUP, DEBUG
+    return KEY, PASSWORD_E, PASSWORD_D, KEY_BACKUP
 
 def validateInput(prompt, expected_type, error_message):
     while True:
@@ -102,7 +99,7 @@ def main():
         L_CYAN + "8. Manage Keys",
         L_CYAN + "9. Encrypt a file",
         L_CYAN + "10. Decrypt a file",
-        L_CYAN + "0. Debug mode, doesn't do anything yet" + RESET
+        L_CYAN + "0. Exit" + RESET
     ]
 
 
@@ -425,56 +422,7 @@ def decryptFile(KEY, PASSWORD_D):
             print("File decrypted")
 
     else:
-        passCheck(PASSWORD_D)
-
-def debugMode(PASSWORD_D, DEBUG):
-
-    """
-    Debug mode
-
-    Args:
-        PASSWORD_D (str): password
-        DEBUG (str): debug mode state
-
-    Returns:
-        None
-
-    """
-
-    dotenv.load_dotenv()
-
-    if passCheck(PASSWORD_D) == True:
-
-        verfication = float(input("Please input the answer to this question: 8 / 2 * (2 + 2) = "))
-
-    answer = 8 / 2 * (2 + 2)
-
-    if verfication == answer:
-
-        print("Verification successful")
-    
-    else:
-        print("Verification failed")
-        return
-
-    if DEBUG == 'true':
-        print("Debug mode is currently", L_GREEN + "enabled" + RESET)
-    
-    elif DEBUG == 'false':
-        print("Debug mode is currently", L_RED + "disabled" + RESET)
-
-    state = validateInput("Input debug mode state [" + L_GREEN + "True" + RESET + "/" + L_RED + "False" + L_YELLOW + "]: ", str, "Please input True or False")
-
-    dotenv.set_key(".env", "DEBUG", state.lower())
-
-    loadEnvVariables()
-
-    if DEBUG == 'true':
-        print("Debug mode", L_GREEN + "enabled" + RESET)
-
-    elif DEBUG == 'false':
-        print("Debug mode", L_RED + "disabled" + RESET)
-        
+        passCheck(PASSWORD_D)        
 
 # Prompts user if they would like to end the script 
 def end():
@@ -509,7 +457,7 @@ def end():
 
 if __name__ == "__main__":
 
-    KEY, PASSWORD_E, PASSWORD_D, KEY_BACKUP, DEBUG = loadEnvVariables()
+    KEY, PASSWORD_E, PASSWORD_D, KEY_BACKUP = loadEnvVariables()
 
     if KEY == "" or KEY == None or PASSWORD_D == "alpine" or PASSWORD_D == None or PASSWORD_D == "":
         print("Either this is your first time running the script or YOU changed you key to '',no worries we are generating a new key for you.")
@@ -525,7 +473,7 @@ else:
 # Controls the users choice throughout the script      
 while True:
 
-    KEY, PASSWORD_E, PASSWORD_D, KEY_BACKUP, DEBUG = loadEnvVariables()
+    KEY, PASSWORD_E, PASSWORD_D, KEY_BACKUP = loadEnvVariables()
 
     choice = main()
     
@@ -555,6 +503,7 @@ while True:
         case 10:
             decryptFile(KEY, PASSWORD_D)
         case 0:
-            debugMode(PASSWORD_D, DEBUG)
+            print("The script will now stop")
+            exit()
 
     end()
